@@ -26,10 +26,7 @@ public class ProcessController {
     @Autowired
     private ProcessService processService;
 
-    @PostMapping(
-            path="/process-step1-legacy",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            produces = MediaType.TEXT_HTML_VALUE)
+    @PostMapping(path = "/process-step1-legacy", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> processDataLegacy(@RequestBody MultiValueMap<String, String> data1) {
 
         logger.info("Procesando request en el endpoint Legacy");
@@ -41,7 +38,7 @@ public class ProcessController {
         var processStep1Request = new ProcessService.ProcessStep1Request(fullNameRaw, dniRaw, telefonoRaw);
         var result = processService.processStep1(processStep1Request);
 
-        if(result.status()) {
+        if (result.status()) {
             return ResponseEntity.ok().body(ResponseHTMLGenerator.message1);
         }
 
@@ -49,23 +46,18 @@ public class ProcessController {
     }
 
     record DataRequest(
-            @NonNull
-            @NotEmpty
-            String fullName,
+            @NonNull @NotEmpty String fullName,
 
-            @NonNull
-            @NotEmpty
-            String dni,
+            @NonNull @NotEmpty String dni,
 
-            @NonNull
-            @NotEmpty
-            String telefono) {}
-    record DataResponse (String result) {}
+            @NonNull @NotEmpty String telefono) {
+    }
+
+    record DataResponse(String result) {
+    }
 
     @PostMapping(
-            path="/process-step1",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        path = "/process-step1", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DataResponse> processData(
             @Valid @RequestBody DataRequest data1, BindingResult bindingResult) {
 
@@ -82,7 +74,7 @@ public class ProcessController {
         var processStep1Request = new ProcessService.ProcessStep1Request(fullNameRaw, dniRaw, telefonoRaw);
         var result = processService.processStep1(processStep1Request);
 
-        if(result.status()) {
+        if (result.status()) {
             return ResponseEntity.ok().body(new DataResponse("OK"));
         }
 

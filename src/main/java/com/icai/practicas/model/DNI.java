@@ -1,5 +1,4 @@
 package com.icai.practicas.model;
-
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
